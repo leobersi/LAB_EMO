@@ -57,7 +57,7 @@ void Particle::Set_indexParticle(int index) {
   else {std::cout<< "Set_indexParticle failed\n";}
 }
 
-const int Particle::Get_indexParticle() const { return indexParticle_; }
+int Particle::Get_indexParticle() const { return indexParticle_; }
 
 void Particle::PrintArray() {
     for (int i = 0; i < generatedParticle_; i++)
@@ -75,19 +75,21 @@ void Particle::PrintParticle() const {
   }
 }
 
-const double Particle::Get_Px() const { return fPx_;}
+double Particle::Get_Px() const { return fPx_;}
 
-const double Particle::Get_Py() const { return fPy_;}
+double Particle::Get_Py() const { return fPy_;}
 
-const double Particle::Get_Pz() const { return fPz_;}
+double Particle::Get_Pz() const { return fPz_;}
 
-const double Particle::Get_Mass() const { return ParticleType_[indexParticle_]->GetMass();}
+int Particle::Get_Charge() const { return ParticleType_[indexParticle_]->GetCharge();}
 
-const double Particle::Energy() const {
+double Particle::Get_Mass() const { return ParticleType_[indexParticle_]->GetMass();}
+
+double Particle::Energy() const {
 return sqrt(pow(Get_Mass(),2) + fPx_*fPx_ + fPy_*fPy_ + fPz_*fPz_);
 }
 
-const double Particle::InvMass(const Particle& p) const {
+double Particle::InvMass(const Particle& p) const {
   return sqrt(pow(Energy() + p.Energy(), 2) - 
          pow(sqrt(fPx_*fPx_ + fPy_*fPy_ + fPz_*fPz_) + 
          sqrt(p.fPx_*p.fPx_ + p.fPy_*p.fPy_ + p.fPz_*p.fPz_),2));
