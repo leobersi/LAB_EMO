@@ -25,7 +25,7 @@ Particle::Particle(const char* name, double Px = 0, double Py = 0, double Pz = 0
         std::cout<<"the "<<name<<" type is not yet contemplated\n";}
     }
 
-void Particle::AddParticleType(const char *name, double mass, int charge, double width = 0) {
+void Particle::AddParticleType(const char *name, double mass, int charge, double width) {
   // controllo se numero massimo di particelle già generato
   if (generatedParticle_ == maxParticleNumber_) {
     std::cout << "Maximum number of particles already reached\n";
