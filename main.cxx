@@ -1,14 +1,21 @@
-#include "ParticleType.cxx"
-#include "ResonanceType.cxx"
-#include "Particle.cxx"
+#include "ParticleType.hxx"
+#include "ResonanceType.hxx"
+#include "Particle.hxx"
 #include "TMath.h"
 #include "TH1F.h"
 #include "TH2F.h"
 #include "TROOT.h"
 #include "TRandom.h"
+#include "TStyle.h"
+#include "TCanvas.h"
 
 int main(){
-
+///////////////////////////////////////////////
+ gROOT->SetStyle("Plain");
+  gStyle-> SetPalette(57);
+  gStyle-> SetOptTitle(0);
+  TCanvas* mycanvas = new TCanvas();
+///////////////////////////////////////////////
 gRandom->SetSeed();
 constexpr int N = 130;
 constexpr int  n_gen = 1e4;
@@ -117,15 +124,15 @@ for(int i =0; i<n_gen; ++i){
     }
  }
 }
-types->Draw();
-correlation->Draw();
-impulse->Draw();
-trasv_imp->Draw();
-energy->Draw();
-mass1->Draw();
-mass2->Draw();
-mass3->Draw();
-mass4->Draw();
-mass5->Draw();
-mass6->Draw();
+types->Draw("APE");
+/*correlation->Draw("APE");
+impulse->Draw("APE");
+trasv_imp->Draw("APE");
+energy->Draw("APE");
+mass1->Draw("APE");
+mass2->Draw("APE");
+mass3->Draw("APE");
+mass4->Draw("APE");
+mass5->Draw("APE");
+mass6->Draw("APE");*/
 }

@@ -8,10 +8,10 @@ public:
 Particle(const char* name, double Px, double Py, double Pz);
 Particle();
 //int Get_maxParticleNumber() const;
-static void AddParticleType(const char* name, double mass, int charge, double width);
+static void AddParticleType(const char* name, double mass, int charge, double width = 0);
 inline void Set_indexParticle(const char* name);
 inline void Set_indexParticle(int index);
-const int Get_indexParticle() const;
+inline const int Get_indexParticle() const;
 static void PrintArray(); 
 void PrintParticle() const;
 const double Get_Px() const;
