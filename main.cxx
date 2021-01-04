@@ -17,7 +17,7 @@ int main() {
   gStyle->SetOptTitle(0);
   ///////////////////////////////////////////////
   gRandom->SetSeed();
-  constexpr int nGen = 1e05; //events 1e05!!
+  constexpr int nGen = 1e05; //events
   constexpr int nParticle = 100; //number of particles generated per event
   constexpr int N = 130; //dimension of static array
 
@@ -34,17 +34,17 @@ int main() {
 
   //Histograms definition
          TH1F *types  =  new TH1F("types", "Types of Particles generated", 7, 0, 7);
-  TH1F *correlationT  =  new TH1F("correlationT", "distribution of Theta", 100, 0, TMath::Pi());
-  TH1F *correlationP  =  new TH1F("correlationP", "distribution of Phi", 100, 0, 2 * TMath::Pi());
+  TH1F *correlationT  =  new TH1F("correlation_of_Theta", "distribution of Azimutal Angle", 100, 0, TMath::Pi());
+  TH1F *correlationP  =  new TH1F("correlation_of_Phi", "distribution of Polar Angle", 100, 0, 2 * TMath::Pi());
        TH1F *impulse  =  new TH1F("impulse", "Impulse distribution", 1000, 0, 6);
      TH1F *trasv_imp  =  new TH1F("trasv_imp", "Traverse impulse distribution", 1000, 0, 2);
         TH1F *energy  =  new TH1F("energy", "Energy of Particles distribution", 1000, 0, 2);
-         TH1F *mass1  =  new TH1F("mass1", "Invariant Mass discord charge", 160, 0, 2);
-         TH1F *mass2  =  new TH1F("mass2", "Invariant Mass concord charge", 160, 0, 2);
-         TH1F *mass3  =  new TH1F("mass3", "Invariant Mass P and K discord charge", 160, 0, 2);
-         TH1F *mass4  =  new TH1F("mass4", "Invariant Mass P and K concord charge", 160, 0, 2);
-         TH1F *mass5  =  new TH1F("mass5", "Invariant Mass couples decayed from K*", 160, 0, 2);
-         TH1F *mass6  =  new TH1F("mass6", "Invariant Mass all particles generated", 160, 0, 2);
+         TH1F *mass1  =  new TH1F("mass1", "Invariant Mass discord charge", 80, 0, 2);
+         TH1F *mass2  =  new TH1F("mass2", "Invariant Mass concord charge", 80, 0, 2);
+         TH1F *mass3  =  new TH1F("mass3", "Invariant Mass P and K discord charge", 80, 0, 2);
+         TH1F *mass4  =  new TH1F("mass4", "Invariant Mass P and K concord charge", 80, 0, 2);
+         TH1F *mass5  =  new TH1F("mass5", "Invariant Mass couples decayed from K*", 80, 0, 2);
+         TH1F *mass6  =  new TH1F("mass6", "Invariant Mass all particles generated", 80, 0, 2);
 
   double Theta, Phi, Impulse, Px, Py, Pz, x = 0;
   
@@ -106,7 +106,8 @@ int main() {
     for (int j = 0; j < 100 + decays_counter; ++j) {
       for (int h = j + 1; h < 100 + decays_counter; h++) {
         mass6->Fill(particle[j].InvMass(particle[h])); // filling mass6
-        if (particle[j].Get_Charge() != particle[h].Get_Charge()) {
+        if ((particle[j].Get_Charge() == 1 && particle[h].Get_Charge() == -1) ||
+           (particle[j].Get_Charge() == -1 && particle[h].Get_Charge() == 1)) {
             mass1->Fill(particle[j].InvMass(particle[h])); // filling mass1
           }
         if (particle[j].Get_Charge() == particle[h].Get_Charge()) {
@@ -126,36 +127,7 @@ int main() {
       }
     }
   }
-  for(int i=1; i<=types->GetNbinsX();i++){
-    std::cout<<"Numbers of types "<< i << " generated is: " << types->GetBinContent(i) <<'\n';
-    std::cout<<"with an error: "<< types->GetBinError(i) <<'\n';
-  }
-  //Canvas Creation and split
-  TCanvas *c1 = new TCanvas();
-  c1->Divide(1,2);
-  //fit
-  c1->cd(1);
-  correlationT->Fit("pol0");
-  gStyle->SetOptFit(111);
-  correlationT->DrawCopy();
   
-  c1->cd(2);
-  correlationP->Fit("pol0");
-  gStyle->SetOptFit(111);
-  correlationP->DrawCopy();
-  
-
   file->Write();
   file->Close();
-  /*types->Draw("APE");
-  correlation->Draw("APE");
-  impulse->Draw("APE");
-  trasv_imp->Draw("APE");
-  energy->Draw("APE");
-  mass1->Draw("APE");
-  mass2->Draw("APE");
-  mass3->Draw("APE");
-  mass4->Draw("APE");
-  mass5->Draw("APE");
-  mass6->Draw("APE");*/
 }
